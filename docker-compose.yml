@@ -1,0 +1,41 @@
+services:
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+
+  #   ports:
+  #     - 80:80
+  
+  backend: 
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    
+    volumes:
+     - ./backend:/app
+
+    ports:
+     - 8000:8000
+
+    depends_on:
+     - db
+
+  db: 
+    image: postgres:latest
+    volumes:
+     - ./data:/var/lib/postgresql/data/
+
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "postgres", "-U", "postgres"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+    ports:
+     - 5432:5432
+    environment:
+     POSTGRES_PASSWORD: postgres
+    
+
+  
