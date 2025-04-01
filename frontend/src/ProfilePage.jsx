@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./ProfilePage.css";
 
 function ProfilePage() {
@@ -6,10 +7,10 @@ function ProfilePage() {
     <div className="profile-container">
       <aside className="sidebar">
         <div className="logo">logo</div>
-        <button className="button">main page</button>
-        <button className="button">account</button>
-        <button className="button">add person</button>
-        <button className="button">favourites</button>
+        <Link to="/" className="button">Main Page</Link>
+        <Link to="/profile" className="button">Account</Link>
+        <button className="button">Add Person</button>
+        <button className="button">Favourites</button>
       </aside>
 
       <main className="profile-content">
@@ -20,7 +21,7 @@ function ProfilePage() {
         </div>
       </main>
 
-      <button className="logout">log out</button>
+      <button className="logout">Log out</button>
     </div>
   );
 }
