@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import "./App.css";
+
+const users = [
+  { name: "ala", img: "https://via.placeholder.com/100" },
+  { name: "Dominika", img: "https://via.placeholder.com/100" },
+  { name: "mama", img: "https://via.placeholder.com/100" },
+  { name: "Piotrek", img: "https://via.placeholder.com/100" },
+  { name: "dawid", img: "https://via.placeholder.com/100" },
+  { name: "Veska", img: "https://via.placeholder.com/100" },
+  { name: "ciocia Ela", img: "https://via.placeholder.com/100" },
+  { name: "Krystian", img: "https://via.placeholder.com/100" },
+];
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="container">
+      <aside className="sidebar">
+        <div className="logo">logo</div>
+        <button className="button">main page</button>
+        <button className="button">account</button>
+        <button className="button">add person</button>
+        <button className="button">favourites</button>
+      </aside>
+      <main className="content">
+        <div className="search-bar">
+          <input type="text" placeholder="search..." />
+          <button>🔍</button>
+        </div>
+        <div className="grid">
+          {users.map((user, index) => (
+            <div key={index} className="card">
+              <img src={user.img} alt={user.name} className="profile-img" />
+              <p>{user.name}</p>
+            </div>
+          ))}
+        </div>
+      </main>
+      <button className="logout">log out</button>
+    </div>
+  );
 }
 
-export default App
+export default App;
