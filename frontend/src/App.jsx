@@ -15,6 +15,11 @@ const users = [
 function App() {
   return (
     <div className="container">
+
+      <header className="header">
+        <button className="logout">log out</button>
+      </header>
+
       <aside className="sidebar">
         <div className="logo">logo</div>
         <button className="button">main page</button>
@@ -22,11 +27,13 @@ function App() {
         <button className="button">add person</button>
         <button className="button">favourites</button>
       </aside>
+
       <main className="content">
         <div className="search-bar">
           <input type="text" placeholder="search..." />
           <button>🔍</button>
         </div>
+
         <div className="grid">
           {users.map((user, index) => (
             <div key={index} className="card">
@@ -36,7 +43,8 @@ function App() {
           ))}
         </div>
       </main>
-      <button className="logout">log out</button>
+      {/* <button className="logout">log out</button> */}
+
     </div>
   );
 }
