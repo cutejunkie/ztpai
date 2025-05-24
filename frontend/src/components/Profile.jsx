@@ -7,7 +7,7 @@ function Profile({ image, name, date }) {
           <div className="Profile-placeholder">Brak zdjęcia</div>
         )}
         <p className="Profile-name">{name}</p>
-        <p>z nami od: {date}</p>
+        <p>with us form: {date}</p>
       </div>
     );
   }
