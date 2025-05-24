@@ -1,47 +1,54 @@
-import { Link } from "react-router-dom";
-import "./App.css";
+import './App.css';
+// import obraz from './assets/obraz.jpg';
 
-const users = [
-  { name: "ala", img: "https://via.placeholder.com/100" },
-  { name: "Dominika", img: "https://via.placeholder.com/100" },
-  { name: "mama", img: "https://via.placeholder.com/100" },
-  { name: "Piotrek", img: "https://via.placeholder.com/100" },
-  { name: "dawid", img: "https://via.placeholder.com/100" },
-  { name: "Veska", img: "https://via.placeholder.com/100" },
-  { name: "ciocia Ela", img: "https://via.placeholder.com/100" },
-  { name: "Krystian", img: "https://via.placeholder.com/100" },
-];
+function Topbar() {
+  return (
+    <div className="Topbar">
+      <button className="Topbar-button">log out</button>
+    </div>
+  );
+}
+
+function Sidebar() {
+  return (
+    <div className="Sidebar">
+      <div className="Sidebar-logo">logo</div>
+      <div className="Sidebar-buttons">
+        <button>main page</button>
+        <button>account</button>
+        <button>add person</button>
+        <button>favourites</button>
+      </div>
+    </div>
+  );
+}
+
+function PersonCard({ image, name }) {
+  return (
+    <div className="PersonCard">
+      {image ? (
+        <img src={image} alt={name} className="PersonCard-image" />
+      ) : (
+        <div className="PersonCard-placeholder">Brak zdjęcia</div>
+      )}
+      <p className="PersonCard-name">{name}</p>
+    </div>
+  );
+}
 
 function Dashboard() {
   return (
-    <div className="container">
-      <header className="header">
-        <nav><button className="logout">log out</button></nav>
-      </header>
-
-      <aside className="sidebar">
-        <div className="logo">logo</div>
-        <Link to="/" className="button">Main Page</Link>
-        <Link to="/profile" className="button">Account</Link>
-        <button className="button">Add Person</button>
-        <button className="button">Favourites</button>
-      </aside>
-
-      <main className="content">
-        <div className="search-bar">
-          <input type="text" placeholder="search..." />
-          <button>🔍</button>
+    <div>
+      <Topbar />
+      <Sidebar />
+      <div className="Background">
+        <div className="PersonCard-container">
+        <PersonCard image="" name="Anna Kowalska" />
+        <PersonCard image="" name="Jan Nowak" />
+        <PersonCard image="" name="Kasia Wiśniewska" />
+        <PersonCard image="" name="Kasia Wiśniewska" />
         </div>
-
-        <div className="grid">
-          {users.map((user, index) => (
-            <div key={index} className="card">
-              <img src={user.img} alt={user.name} className="profile-img" />
-              <p>{user.name}</p>
-            </div>
-          ))}
-        </div>
-      </main>
+      </div>
     </div>
   );
 }

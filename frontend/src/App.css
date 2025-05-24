@@ -1,103 +1,142 @@
-body {
+html, body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #dce7d5;
+  padding: 0;
+  height: 100%;
 }
 
-.container {
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.Background {
+  padding-top: 60px;      /* odstęp pod topbarem */
+  padding-left: 300px;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #EEFBF2;
+}
+
+.Topbar {
+  width: 100%; 
+  height: 35px; 
+  background: #67796A;
   display: flex;
-  height: 100vh;
+  position: fixed;
+  justify-content: right;
+  top: 0;
+  left: 0;
+  z-index: 1000;          /* nad innymi elementami */
+  padding: 0 20px;        /* padding od lewej i prawej */
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
 }
 
-.sidebar {
-  width: 200px;
-  background-color: #708070;
+.Topbar-button {
+  background-color: #CAD1CC;
+  color: #333;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.Topbar-button:hover {
+  background-color: #9fa9a2;
+}
+
+.Sidebar {
+  height: 100%;
+  width: 250px;
+  background: #8DA190;
+  display: flex;
+  position: fixed;
+  top: 35px;
+  left: 0;
+  padding: 0 20px;
+  padding-top: 10px;
+}
+
+.Sidebar-logo {
+  width: 250px;
+  height: 250px;
+  background-color: white;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  border: 1px solid #333;
+  font-weight: bold;
+}
+
+.Sidebar-buttons {
+  padding-top: 300px;
+}
+
+.Sidebar-buttons button {
+  width: 250px;
+  padding: 10px 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #d3dcd7;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.Sidebar-buttons button:hover {
+  background-color: #c4cfc8;
+}
+
+/* ***************************************** */
+
+.PersonCard-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
   padding: 20px;
+}
+
+.PersonCard {
+  width: 250px;
+  height: 250px; /* Stała wysokość */
+  background-color: white;
+  border: 1px solid #333;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Imię na dole */
   align-items: center;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   padding: 10px;
-  background: #708070;
-  color: black;
+  box-sizing: border-box;
 }
 
-.logo {
-  background-color: white;
-  width: 100px;
-  height: 100px;
+.PersonCard-image {
+  width: 200px;
+  height: 200px; /* Stała wielkosc obrazu */
+  object-fit: cover; /* Przytnij/rozciągnij obrazek */
+}
+
+.PersonCard-name {
+  font-weight: bold;
+}
+
+.PersonCard-placeholder {
+  width: 200px;
+  height: 200px;
+  background-color: #eee;
+  color: #777;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-}
-
-.button {
-  background-color: #c5cdbc;
-  border: none;
-  padding: 10px;
-  margin: 5px;
-  width: 100%;
-  cursor: pointer;
-  text-align: center;
-}
-
-.content {
-  flex-grow: 1;
-  padding: 20px;
-}
-
-.search-bar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.search-bar input {
-  flex-grow: 1;
-  padding: 5px;
-  border: 1px solid #708070;
-}
-
-.search-bar button {
-  padding: 5px;
-  cursor: pointer;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 10px;
-}
-
-.card {
-  background-color: white;
-  color: black;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-  width: 70%;
-}
-
-.profile-img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.logout {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: white;
-  color: black;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
+  font-size: 14px;
+  font-style: italic;
+  border-bottom: 1px solid #ccc;
 }
