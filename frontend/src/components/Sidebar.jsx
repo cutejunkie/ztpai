@@ -1,10 +1,10 @@
 function Sidebar() {
     return (
       <div className="Sidebar">
-        <div className="Sidebar-logo">logo</div>
+        <img className="Sidebar-logo" src="src/assets/logo.jpg" alt="logo"></img>
         <div className="Sidebar-buttons">
           <button>main page</button>
-          <button>account</button>
+          <button>profile</button>
           <button>add person</button>
           <button>favourites</button>
         </div>
