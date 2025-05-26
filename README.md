@@ -5,7 +5,7 @@ Aplikacja skierowana do osób, chcących kupić prezent bliskim. Osobiście zapi
 
 
 ## Architektura
-Projekt podzielony jest na frontend i backend.
+Projekt podzielony jest na *frontend* (React) i *backend* (Django).
 
 Frontend z kolei podzielony jest na /assets (dodatkowe materiały), /components (elementy typu Sidebar), /pages (właściwe podstrony) oraz pliki: App.jsx, App.css i main.jsx służące za router oraz spis stylów CSS.
 
@@ -14,15 +14,20 @@ Frontend z kolei podzielony jest na /assets (dodatkowe materiały), /components 
 Aby uruchomić należy:
 
 BACKEND
-1. odpalić w tle aplikację Docker Desktop
-2. będąc w folderze głównym aplikacji wpisać komendę "docker compose up"
+1. przejść do podfolderu /frontend
+2. wpisać komendę "python manage.py runserver"
+*konieczne:
+`pip install django djangorestframework`
+`django-admin startproject backend .`  (utworzy w tym samym folderze)
+`pip install django-cors-headers`  (wtmagane paczki)
 
 
 FRONTEND
 1. przejść do podfolderu /frontend
 2. wpisać komendę "npm run dev"
+*konieczne: `npm install`
 
 
 ## Użyte technologie
 1. React
-2. Symfony
+2. Django
