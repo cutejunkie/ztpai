@@ -194,3 +194,74 @@ p {
   font-style: italic;
   border-bottom: 1px solid #ccc;
 }
+
+/* ********************************** */
+
+.Background-login {
+  padding-top: 250px;      /* odstęp pod topbarem */
+  /* padding-left: 300px; */
+  justify-content: center;
+  justify-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #EEFBF2;
+}
+
+.login-topbar {
+  width: 100%; 
+  height: 220px; 
+  background: #67796A;
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 1000;          /* nad innymi elementami */
+  padding: 0 20px;        /* padding od lewej i prawej */
+  box-sizing: border-box;
+}
+
+.login-topbar img {
+  justify-content: center;
+  padding-top: 10px;
+  height: 200px;
+  width: 200px;
+}
+
+h2 {
+  color: #333;
+  margin: 1rem 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form input {
+  margin: 0.5rem 0;
+  padding: 0.8rem;
+  width: 300px;
+  border-color: #333;
+  /* border: none; */
+  border-radius: 6px;
+  background-color: #ffffff;
+  font-size: 1rem;
+}
+
+.login-button,
+.register-button {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  background-color: #edd3a8;
+  border-radius: 8px;
+  cursor: pointer;
+  border-color: #333;
+}
+
+.login-button:hover,
+.register-button:hover {
+  background-color: #e0c595;
+}
