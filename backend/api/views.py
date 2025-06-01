@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Card
 from django.contrib.auth import authenticate
 
 @api_view(['GET'])
@@ -73,3 +73,33 @@ def register_user(request):
             "user_id": user.id
         }
     }, status=status.HTTP_201_CREATED)
+
+
+
+from django.shortcuts import get_object_or_404
+
+@api_view(['GET'])
+def get_user_by_id(request, id):
+    user = get_object_or_404(User, id=id)
+    return Response(
+        {
+            "data": {
+                "id": user.id,
+                "username": user.username,
+            }
+        },
+        status=status.HTTP_200_OK
+    )
+
+@api_view(['GET'])
+def get_card_by_uuid(request, uuid):
+    card = get_object_or_404(Card, uuid=uuid)
+    return Response(
+        {
+            "data": {
+                "uuid": str(card.uuid),
+                "title": card.title,
+            }
+        },
+        status=status.HTTP_200_OK
+    )
