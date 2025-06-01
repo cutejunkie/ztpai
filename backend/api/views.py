@@ -1,6 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 @api_view(['GET'])
 def hello(request):
@@ -11,14 +13,63 @@ def hello(request):
 
 @api_view(['POST'])
 def login_user(request):
-    return Response(
-        {"data": {}},
-        status=status.HTTP_200_OK
-    )
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    if not username or not password:
+        return Response({
+            "error": {
+                "code": 400,
+                "message": "Podaj nazwę użytkownika i hasło"
+            }
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        return Response({
+            "data": {
+                "message": "Zalogowano pomyślnie",
+                "username": user.username,
+                "user_id": user.id
+            }
+        }, status=status.HTTP_200_OK)
+    else:
+        return Response({
+            "error": {
+                "code": 401,
+                "message": "Nieprawidłowe dane logowania"
+            }
+        }, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['POST'])
 def register_user(request):
-    return Response(
-        {"data": {}},
-        status=status.HTTP_200_OK
-    )
+    username = request.data.get('username')
+    email = request.data.get('email')
+    password = request.data.get('password')
+
+    if not username or not email or not password:
+        return Response({
+            "error": {
+                "code": 400,
+                "message": "Wszystkie pola są wymagane"
+            }
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    if User.objects.filter(username=username).exists():
+        return Response({
+            "error": {
+                "code": 409,
+                "message": "Użytkownik o podanej nazwie już istnieje"
+            }
+        }, status=status.HTTP_409_CONFLICT)
+
+    user = User.objects.create_user(username=username, email=email, password=password)
+    user.save()
+
+    return Response({
+        "data": {
+            "message": "Zarejestrowano pomyślnie",
+            "user_id": user.id
+        }
+    }, status=status.HTTP_201_CREATED)
