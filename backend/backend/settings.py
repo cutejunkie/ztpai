@@ -140,3 +140,14 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 AUTH_USER_MODEL = 'api.CustomUser'  
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+CORS_ALLOW_CREDENTIALS = True
