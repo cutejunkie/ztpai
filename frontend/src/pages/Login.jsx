@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+// import Cookies  from 'js-cookie';
 import '../App.css';
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -11,20 +12,24 @@ function Login() {
     e.preventDefault(); // zapobiega przeładowaniu strony
 
     try {
+      // const csrf = Cookies.get('csrftoken');
+      // console.log(csrf);
       const response = await fetch('http://localhost:8000/api/v1/login/', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          // 'X-CSRFToken' : csrf,
         },
         body: JSON.stringify({
-          username: email,
+          username: username,
           password: password,
         }),
       });
 
       if (response.ok) {
         alert('Logowanie zakończone sukcesem!');
-        navigate('/dashboard');
+        navigate('/');
         // możesz przekierować użytkownika lub zapisać token:
         // localStorage.setItem("token", data.token);
       } else {
@@ -46,11 +51,11 @@ function Login() {
 
       <form className="login-form" onSubmit={handleSubmit}>
         <input
-          type="email"
-          placeholder="e-mail address"
+          type="text"
+          placeholder="username"
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="password"
