@@ -1,13 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from api.models import Card
+from django.contrib.auth import authenticate, login
+from api.models import Card, CustomUser
 from django.shortcuts import get_object_or_404
 
 @api_view(['GET'])
 def hello(request):
+    print(request.user.is_authenticated)
     return Response(
         {"data": {"message": "Witaj w API z Django REST Framework"}},
         status=status.HTTP_200_OK
@@ -18,6 +18,8 @@ def login_user(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
+    print(username, password)
+
     if not username or not password:
         return Response({
             "error": {
@@ -26,9 +28,11 @@ def login_user(request):
             }
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    user = authenticate(username=username, password=password)
+    user = authenticate(request, username=username, password=password)
 
     if user is not None:
+        login(request, user)
+        request.session["user_id"] = user.id
         return Response({
             "data": {
                 "message": "Zalogowano pomyślnie",
@@ -58,7 +62,7 @@ def register_user(request):
             }
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    if User.objects.filter(username=username).exists():
+    if CustomUser.objects.filter(username=username).exists():
         return Response({
             "error": {
                 "code": 409,
@@ -66,7 +70,7 @@ def register_user(request):
             }
         }, status=status.HTTP_409_CONFLICT)
 
-    user = User.objects.create_user(username=username, email=email, password=password)
+    user = CustomUser.objects.create_user(username=username, email=email, password=password)
     user.save()
 
     return Response({
@@ -78,7 +82,7 @@ def register_user(request):
 
 @api_view(['GET'])
 def get_user_by_id(request, id):
-    user = get_object_or_404(User, id=id)
+    user = get_object_or_404(CustomUser, id=id)
     return Response(
         {
             "data": {
