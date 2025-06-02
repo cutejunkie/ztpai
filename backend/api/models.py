@@ -1,6 +1,7 @@
 # TABELE W BAZIE DANCYH
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+import uuid
 
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (
@@ -9,8 +10,6 @@ class CustomUser(AbstractUser):
     )
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
 
-
-import uuid
 
 class Card(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)

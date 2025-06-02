@@ -16,3 +16,5 @@ backend/api/__pycache__/urls.cpython-311.pyc
 backend/api/__pycache__/views.cpython-311.pyc
 
 *.pyc
+
+/.vscode
