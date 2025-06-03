@@ -1,9 +1,12 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate, login
 from api.models import Card, CustomUser
 from django.shortcuts import get_object_or_404
+from .serializers import CardSerializer
+from rest_framework.permissions import IsAuthenticated
+
 
 @api_view(['GET'])
 def hello(request):
@@ -105,3 +108,23 @@ def get_card_by_uuid(request, uuid):
         },
         status=status.HTTP_200_OK
     )
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_card(request):
+    serializer = CardSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)  # przypisz kartę do aktualnego użytkownika
+        return Response({
+            "data": serializer.data,
+            "message": "Karta została utworzona"
+        }, status=status.HTTP_201_CREATED)
+    else:
+        return Response({
+            "error": {
+                "code": 400,
+                "message": "Nieprawidłowe dane wejściowe",
+                "details": serializer.errors
+            }
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
