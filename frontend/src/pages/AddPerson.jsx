@@ -23,7 +23,7 @@ function AddPerson() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/cards/', {
+      const response = await fetch('http://localhost:8000/api/cards/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

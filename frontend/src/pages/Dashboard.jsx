@@ -2,19 +2,42 @@ import '../App.css';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import PersonCard from '../components/PersonCard';
-// import obraz from './assets/obraz.jpg';
+import { useEffect, useState } from 'react';
 
 function Dashboard() {
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/cards/', {
+          credentials: 'include', // jeśli sesje
+          // headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }, // jeśli JWT
+        });
+
+        const data = await response.json();
+        setCards(data);
+      } catch (error) {
+        console.error("Error fetching cards:", error);
+      }
+    };
+
+    fetchCards();
+  }, []);
+
   return (
     <div>
       <Topbar />
       <Sidebar />
       <div className="Background">
         <div className="PersonCard-container">
-        <PersonCard image="" name="Anna Kowalska" />
-        <PersonCard image="" name="Jan Nowak" />
-        <PersonCard image="" name="Kasia Wiśniewska" />
-        <PersonCard image="" name="Kasia Wiśniewska" />
+          {cards.map((card) => (
+            <PersonCard
+              key={card.uuid}
+              image="" // jeśli dodasz później pole "image", wstaw je tutaj
+              name={card.title}
+            />
+          ))}
         </div>
       </div>
     </div>

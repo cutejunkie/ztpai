@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-// import Cookies  from 'js-cookie';
+import Cookies  from 'js-cookie';
 import '../App.css';
 
 function Login() {
+  useEffect(() => {
+    fetch('http://localhost:8000/api/v1/csrf/', {
+      credentials: 'include',
+    });
+  }, []);
+
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -12,14 +19,14 @@ function Login() {
     e.preventDefault(); // zapobiega przeładowaniu strony
 
     try {
-      // const csrf = Cookies.get('csrftoken');
+      const csrf = Cookies.get('csrftoken');
       // console.log(csrf);
       const response = await fetch('http://localhost:8000/api/v1/login/', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          // 'X-CSRFToken' : csrf,
+          'X-CSRFToken': csrf,
         },
         body: JSON.stringify({
           username: username,
