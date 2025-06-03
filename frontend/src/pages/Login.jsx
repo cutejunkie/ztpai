@@ -4,12 +4,14 @@ import Cookies  from 'js-cookie';
 import '../App.css';
 
 function Login() {
-  useEffect(() => {
+useEffect(() => {
     fetch('http://localhost:8000/api/v1/csrf/', {
-      credentials: 'include',
+      credentials: 'include'
+    })
+    .then(() => {
+      // token jest teraz w ciasteczku csrftoken
     });
   }, []);
-
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

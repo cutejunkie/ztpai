@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404
 from .serializers import CardSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.middleware.csrf import get_token
+from django.http import JsonResponse
+
 
 @api_view(['GET'])
 def hello(request):
@@ -138,4 +140,6 @@ def get_user_cards(request):
 @api_view(['GET'])
 def csrf_token_view(request):
     token = get_token(request)
-    return Response({'csrftoken': token})
+    response = JsonResponse({'detail': 'CSRF cookie set'})
+    response.set_cookie('csrftoken', token)
+    return response
