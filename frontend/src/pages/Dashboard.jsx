@@ -10,7 +10,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/cards/', {
+        const response = await fetch('http://localhost:8000/api/v1/cards/', {
           credentials: 'include', // jeśli sesje
           // headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }, // jeśli JWT
         });

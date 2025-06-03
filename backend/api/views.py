@@ -114,6 +114,8 @@ def get_card_by_uuid(request, uuid):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_card(request):
+    print("Użytkownik:", request.user)
+    print("Czy zalogowany:", request.user.is_authenticated)
     serializer = CardSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(user=request.user)  # przypisz kartę do aktualnego użytkownika

@@ -1,7 +1,8 @@
 import "../App.css";
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 function AddPerson() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,22 @@ function AddPerson() {
     ideas: '',
     favourite: false,
   });
+
+  const [csrfToken, setCsrfToken] = useState('');
+
+  useEffect(() => {
+    const existingToken = Cookies.get('csrftoken');
+    if (existingToken) {
+      setCsrfToken(existingToken);
+    } else {
+      fetch('http://localhost:8000/api/v1/csrf/', {
+        credentials: 'include'
+      }).then(() => {
+        const token = Cookies.get('csrftoken');
+        setCsrfToken(token);
+      });
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -23,17 +40,18 @@ function AddPerson() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/cards/add', {
+      const response = await fetch('http://localhost:8000/api/v1/cards/add/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // jeśli używasz JWT:
-          // 'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'X-CSRFToken': csrfToken,
         },
-        credentials: 'include', // jeśli logowanie przez sesję
+        credentials: 'include',
         body: JSON.stringify({
           title: formData.name,
-          content: formData.ideas
+          content: formData.ideas,
+          birth_date: formData.birthDate,
+          favourite: formData.favourite,
         }),
       });
 
@@ -42,6 +60,12 @@ function AddPerson() {
 
       if (response.ok) {
         alert("Card added successfully!");
+        setFormData({
+          name: '',
+          birthDate: '',
+          ideas: '',
+          favourite: false,
+        });
       } else {
         alert("Error: " + (data?.error?.message || "failed to create card"));
       }
