@@ -6,7 +6,7 @@ from api.models import Card, CustomUser
 from django.shortcuts import get_object_or_404
 from .serializers import CardSerializer
 from rest_framework.permissions import IsAuthenticated
-
+from django.middleware.csrf import get_token
 
 @api_view(['GET'])
 def hello(request):
@@ -128,3 +128,14 @@ def create_card(request):
             }
         }, status=status.HTTP_400_BAD_REQUEST)
     
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_cards(request):
+    cards = Card.objects.filter(user=request.user)
+    serializer = CardSerializer(cards, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def csrf_token_view(request):
+    token = get_token(request)
+    return Response({'csrftoken': token})
