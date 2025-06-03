@@ -8,21 +8,47 @@ function AddPerson() {
     name: '',
     birthDate: '',
     ideas: '',
-    photo: null,
     favourite: false,
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value
+      [name]: type === 'checkbox' ? checked : value
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Person added:", formData);
+
+    try {
+      const response = await fetch('http://localhost:8000/api/cards/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // jeśli używasz JWT:
+          // 'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        credentials: 'include', // jeśli logowanie przez sesję
+        body: JSON.stringify({
+          title: formData.name,
+          content: formData.ideas
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (response.ok) {
+        alert("Card added successfully!");
+      } else {
+        alert("Error: " + (data?.error?.message || "failed to create card"));
+      }
+    } catch (error) {
+      console.error("Connection error:", error);
+      alert("Connection error");
+    }
   };
 
   return (
@@ -31,16 +57,7 @@ function AddPerson() {
       <Sidebar />
       <div className="Background">
         <h2 style={{ textAlign: "center" }}>ADD PERSON</h2>
-        <form onSubmit={handleSubmit} style={{
-          maxWidth: "600px",
-          margin: "0 auto",
-          backgroundColor: "#8DA190",
-          padding: "30px",
-          borderRadius: "20px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px"
-        }}>
+        <form onSubmit={handleSubmit} style={formStyle}>
           <input
             type="text"
             name="name"
@@ -48,7 +65,7 @@ function AddPerson() {
             value={formData.name}
             onChange={handleChange}
             required
-            style={{ padding: "10px", border: "1px solid #333", borderRadius: "6px" }}
+            style={inputStyle}
           />
 
           <input
@@ -57,7 +74,7 @@ function AddPerson() {
             value={formData.birthDate}
             onChange={handleChange}
             required
-            style={{ padding: "10px", border: "1px solid #333", borderRadius: "6px" }}
+            style={inputStyle}
           />
 
           <textarea
@@ -67,21 +84,10 @@ function AddPerson() {
             onChange={handleChange}
             rows={5}
             required
-            style={{ padding: "10px", border: "1px solid #333", borderRadius: "6px" }}
+            style={inputStyle}
           />
 
-          <div style={{ display: "flex", gap: "20px", justifyContent: "center" }}>
-            <label style={{ flex: 1 }}>
-              <input
-                type="file"
-                name="photo"
-                onChange={handleChange}
-                style={{ display: "none" }}
-                id="upload-photo"
-              />
-              <label htmlFor="upload-photo" style={buttonStyle}>upload photo</label>
-            </label>
-
+          <div style={rowStyle}>
             <button
               type="button"
               onClick={() => setFormData({ ...formData, favourite: !formData.favourite })}
@@ -100,6 +106,12 @@ function AddPerson() {
   );
 }
 
+const inputStyle = {
+  padding: "10px",
+  border: "1px solid #333",
+  borderRadius: "6px"
+};
+
 const buttonStyle = {
   backgroundColor: "#CAD1CC",
   border: "1px solid #333",
@@ -108,6 +120,23 @@ const buttonStyle = {
   cursor: "pointer",
   fontSize: "14px",
   textAlign: "center",
+};
+
+const formStyle = {
+  maxWidth: "600px",
+  margin: "0 auto",
+  backgroundColor: "#8DA190",
+  padding: "30px",
+  borderRadius: "20px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "15px"
+};
+
+const rowStyle = {
+  display: "flex",
+  gap: "20px",
+  justifyContent: "center"
 };
 
 export default AddPerson;
