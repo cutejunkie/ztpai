@@ -12,12 +12,12 @@ Frontend z kolei podzielony jest na /assets (dodatkowe materiały), /components 
 Backed składa się z /api oraz /backend.
 
 ## Zrzuty ekranu z aplikacji
-[](frontend/src/assets/Dashboard.png)
-[](frontend/src/assets/Dashboard2.png)
-[](frontend/src/assets/AddPerson.png)
-[](frontend/src/assets/profile.png)
-[](frontend/src/assets/login.png)
-[](frontend/src/assets/register.png)
+![Dashboard](frontend/src/assets/Dashboard.png)
+![Dashboard](frontend/src/assets/Dashboard2.png)
+![AddPerson](frontend/src/assets/AddPerson.png)
+![profile](frontend/src/assets/profile.png)
+![login](frontend/src/assets/login.png)
+![register](frontend/src/assets/register.png)
 
 ## Uruchomienie
 Aby uruchomić należy:  
