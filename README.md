@@ -1,6 +1,6 @@
 
 # PrezentOwO
-[logo](frontend/src/assets/logo.jpg).
+![logo](frontend/src/assets/logo.jpg).  
 Aplikacja skierowana do osób, chcących kupić prezent bliskim. Osobiście zapisywałam takie informacje w notatniku aktualizując imiona, zainteresowania i przeróżne pomysły na prezent. Nie jest to jednak najbardziej zabezpieczony przed "podglądaniem" sposób. Aplikacja wymagająca zalogowania powinna to ułatwić.
 
 
@@ -25,6 +25,7 @@ Aby uruchomić należy:
 FRONTEND
 1. przejść do podfolderu /frontend
 2. wpisać komendę `npm run dev`  
+  
 *konieczne do uruchomienia: `npm install`  
 
 BACKEND
@@ -37,9 +38,11 @@ BACKEND
 `django-admin startproject backend .`  (utworzy w tym samym folderze)
 `pip install django-cors-headers`  (wtmagane paczki)  
 
+## Diagram ERD
+![ERD](/frontend/public/ERD.png)  
 
 ## Użyte technologie
-1. React
+1. React 19.0.0
 2. Django
 3. PostgreSQL
 
