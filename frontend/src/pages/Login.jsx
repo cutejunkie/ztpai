@@ -4,12 +4,21 @@ import Cookies  from 'js-cookie';
 import '../App.css';
 
 function Login() {
-useEffect(() => {
+// useEffect(() => {
+//     fetch('http://localhost:8000/api/v1/csrf/', {
+//       credentials: 'include'
+//     })
+//     .then(() => {
+//       // token jest teraz w ciasteczku csrftoken
+//     });
+//   }, []);
+
+  useEffect(() => {
     fetch('http://localhost:8000/api/v1/csrf/', {
       credentials: 'include'
-    })
-    .then(() => {
-      // token jest teraz w ciasteczku csrftoken
+    }).then(() => {
+      console.log('CSRF cookie should be set now.');
+      console.log('Token:', Cookies.get('csrftoken')); // <- sprawdź, czy tu jest wartość
     });
   }, []);
 

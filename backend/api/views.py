@@ -1,13 +1,14 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from api.models import Card, CustomUser
 from django.shortcuts import get_object_or_404
 from .serializers import CardSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 @api_view(['GET'])
@@ -18,6 +19,7 @@ def hello(request):
         status=status.HTTP_200_OK
     )
 
+@csrf_exempt
 @api_view(['POST'])
 def login_user(request):
     username = request.data.get('username')
@@ -29,7 +31,7 @@ def login_user(request):
         return Response({
             "error": {
                 "code": 400,
-                "message": "Podaj nazwę użytkownika i hasło"
+                "message": "Enter username and password"
             }
         }, status=status.HTTP_400_BAD_REQUEST)
 
@@ -40,7 +42,7 @@ def login_user(request):
         request.session["user_id"] = user.id
         return Response({
             "data": {
-                "message": "Zalogowano pomyślnie",
+                "message": "Logged in successfully",
                 "username": user.username,
                 "user_id": user.id
             }
@@ -49,7 +51,7 @@ def login_user(request):
         return Response({
             "error": {
                 "code": 401,
-                "message": "Nieprawidłowe dane logowania"
+                "message": "Incorrect login information"
             }
         }, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -63,7 +65,7 @@ def register_user(request):
         return Response({
             "error": {
                 "code": 400,
-                "message": "Wszystkie pola są wymagane"
+                "message": "All fields are required"
             }
         }, status=status.HTTP_400_BAD_REQUEST)
 
@@ -71,7 +73,7 @@ def register_user(request):
         return Response({
             "error": {
                 "code": 409,
-                "message": "Użytkownik o podanej nazwie już istnieje"
+                "message": "A user with the given name already exists"
             }
         }, status=status.HTTP_409_CONFLICT)
 
@@ -80,7 +82,7 @@ def register_user(request):
 
     return Response({
         "data": {
-            "message": "Zarejestrowano pomyślnie",
+            "message": "Successfully registered",
             "user_id": user.id
         }
     }, status=status.HTTP_201_CREATED)
@@ -114,20 +116,18 @@ def get_card_by_uuid(request, uuid):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_card(request):
-    print("Użytkownik:", request.user)
-    print("Czy zalogowany:", request.user.is_authenticated)
     serializer = CardSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(user=request.user)  # przypisz kartę do aktualnego użytkownika
         return Response({
             "data": serializer.data,
-            "message": "Karta została utworzona"
+            "message": "The card was created"
         }, status=status.HTTP_201_CREATED)
     else:
         return Response({
             "error": {
                 "code": 400,
-                "message": "Nieprawidłowe dane wejściowe",
+                "message": "Incorrect input data",
                 "details": serializer.errors
             }
         }, status=status.HTTP_400_BAD_REQUEST)
@@ -145,3 +145,9 @@ def csrf_token_view(request):
     response = JsonResponse({'detail': 'CSRF cookie set'})
     response.set_cookie('csrftoken', token)
     return response
+
+@api_view(['POST'])
+def logout_user(request):
+    logout(request)
+    return Response({"message": "Logged out successfully"})
+
