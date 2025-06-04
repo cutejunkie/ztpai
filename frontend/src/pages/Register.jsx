@@ -43,7 +43,7 @@ function Register() {
   return (
     <div className="Background-login">
       <div className="login-topbar">
-        <img src="src/assets/logo.jpg" alt="logo" />
+        <img src="src/assets/logo.png" alt="logo" />
       </div>
 
       <h2>REGISTER NOW</h2>
