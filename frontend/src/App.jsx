@@ -6,15 +6,25 @@ import ProfilePage from "./pages/ProfilePage";
 import AddPerson from "./pages/AddPerson";
 import "./App.css";
 
+import PrivateRoute from "./components/PrivateRoute";
+
 function App() {
   return(
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/add" element={<AddPerson />} />
+
+        <Route path="/" element={
+          <PrivateRoute><Dashboard /></PrivateRoute>
+        } />
+        <Route path="/profile" element={
+          <PrivateRoute><ProfilePage /></PrivateRoute>
+        } />
+        <Route path="/add" element={
+          <PrivateRoute><AddPerson /></PrivateRoute>
+        } />
       </Routes>
     </Router>
   );
