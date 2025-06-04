@@ -15,7 +15,7 @@ function Fav() {
         });
 
         const data = await response.json();
-        setCards(data);
+        setCards(data.data);
       } catch (error) {
         console.error("Error fetching favourite cards:", error);
       }

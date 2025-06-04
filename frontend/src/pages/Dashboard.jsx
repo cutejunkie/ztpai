@@ -16,7 +16,7 @@ function Dashboard() {
         });
 
         const data = await response.json();
-        setCards(data);
+        setCards(data.data);
       } catch (error) {
         console.error("Error fetching cards:", error);
       }

@@ -1,14 +1,14 @@
 from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
 from api.models import Card, CustomUser
 from django.shortcuts import get_object_or_404
 from .serializers import CardSerializer
-from rest_framework.permissions import IsAuthenticated
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 
 @api_view(['GET'])
@@ -18,6 +18,7 @@ def hello(request):
         {"data": {"message": "Welcome to the Django REST API"}},
         status=status.HTTP_200_OK
     )
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -52,6 +53,7 @@ def login_user(request):
                 "message": "Invalid username or password"
             }
         }, status=status.HTTP_401_UNAUTHORIZED)
+
 
 @api_view(['POST'])
 def register_user(request):
@@ -128,6 +130,7 @@ def get_card_by_uuid(request, uuid):
             }
         }, status=status.HTTP_404_NOT_FOUND)
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_card(request):
@@ -147,6 +150,7 @@ def create_card(request):
             }
         }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_cards(request):
@@ -159,6 +163,7 @@ def get_user_cards(request):
         },
         status=status.HTTP_200_OK
     )
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -173,12 +178,14 @@ def get_user_favourites(request):
         status=status.HTTP_200_OK
     )
 
+
 @api_view(['GET'])
 def csrf_token_view(request):
     token = get_token(request)
     response = JsonResponse({'detail': 'CSRF cookie set'})
     response.set_cookie('csrftoken', token)
     return response
+
 
 @api_view(['POST'])
 def logout_user(request):
