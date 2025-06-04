@@ -140,6 +140,13 @@ def get_user_cards(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_favourites(request):
+    cards = Card.objects.filter(user=request.user, is_favourite=True)
+    serializer = CardSerializer(cards, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def csrf_token_view(request):
     token = get_token(request)
     response = JsonResponse({'detail': 'CSRF cookie set'})

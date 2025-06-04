@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ProfilePage from "./pages/ProfilePage";
 import AddPerson from "./pages/AddPerson";
+import Fav from "./pages/Fav";
 import "./App.css";
 
 import PrivateRoute from "./components/PrivateRoute";
@@ -24,6 +25,9 @@ function App() {
         } />
         <Route path="/add" element={
           <PrivateRoute><AddPerson /></PrivateRoute>
+        } />
+        <Route path="/favourites" element={
+          <PrivateRoute><Fav /></PrivateRoute>
         } />
       </Routes>
     </Router>

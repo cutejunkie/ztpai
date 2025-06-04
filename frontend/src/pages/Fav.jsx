@@ -4,25 +4,24 @@ import Topbar from '../components/Topbar';
 import PersonCard from '../components/PersonCard';
 import { useEffect, useState } from 'react';
 
-function Dashboard() {
+function Fav() {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    const fetchCards = async () => {
+    const fetchFavourites = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/v1/cards/', {
-          credentials: 'include', // sesje
-          // headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }, // JWT
+        const response = await fetch('http://localhost:8000/api/v1/cards/favourites/', {
+          credentials: 'include',
         });
 
         const data = await response.json();
         setCards(data);
       } catch (error) {
-        console.error("Error fetching cards:", error);
+        console.error("Error fetching favourite cards:", error);
       }
     };
 
-    fetchCards();
+    fetchFavourites();
   }, []);
 
   return (
@@ -34,7 +33,7 @@ function Dashboard() {
           {cards.map((card) => (
             <PersonCard
               key={card.uuid}
-              image="" // for "image" added later
+              image=""
               name={card.title}
             />
           ))}
@@ -44,4 +43,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Fav;
