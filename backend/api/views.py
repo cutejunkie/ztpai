@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 def hello(request):
     print(request.user.is_authenticated)
     return Response(
-        {"data": {"message": "Witaj w API z Django REST Framework"}},
+        {"data": {"message": "Welcome to the Django REST API"}},
         status=status.HTTP_200_OK
     )
 
@@ -25,13 +25,11 @@ def login_user(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
-    print(username, password)
-
     if not username or not password:
         return Response({
             "error": {
                 "code": 400,
-                "message": "Enter username and password"
+                "message": "Username and password are required"
             }
         }, status=status.HTTP_400_BAD_REQUEST)
 
@@ -42,7 +40,7 @@ def login_user(request):
         request.session["user_id"] = user.id
         return Response({
             "data": {
-                "message": "Logged in successfully",
+                "message": "Login successful",
                 "username": user.username,
                 "user_id": user.id
             }
@@ -51,7 +49,7 @@ def login_user(request):
         return Response({
             "error": {
                 "code": 401,
-                "message": "Incorrect login information"
+                "message": "Invalid username or password"
             }
         }, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -73,7 +71,7 @@ def register_user(request):
         return Response({
             "error": {
                 "code": 409,
-                "message": "A user with the given name already exists"
+                "message": "Username already exists"
             }
         }, status=status.HTTP_409_CONFLICT)
 
@@ -82,69 +80,98 @@ def register_user(request):
 
     return Response({
         "data": {
-            "message": "Successfully registered",
+            "message": "Registration successful",
             "user_id": user.id
         }
     }, status=status.HTTP_201_CREATED)
-
+    
+    
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_user_by_id(request, id):
     user = get_object_or_404(CustomUser, id=id)
-    return Response(
-        {
-            "data": {
-                "id": user.id,
-                "username": user.username,
+    
+    if request.user.id != user.id:
+        return Response({
+            "error": {
+                "code": 403,
+                "message": "You do not have permission to view this user"
             }
-        },
-        status=status.HTTP_200_OK
-    )
+        }, status=status.HTTP_403_FORBIDDEN)
+
+    return Response({
+        "data": {
+            "id": user.id,
+            "username": user.username,
+        }
+    }, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def get_card_by_uuid(request, uuid):
-    card = get_object_or_404(Card, uuid=uuid)
-    return Response(
-        {
-            "data": {
-                "uuid": str(card.uuid),
-                "title": card.title,
+    try:
+        card = get_object_or_404(Card, uuid=uuid)
+        return Response(
+            {
+                "data": {
+                    "uuid": str(card.uuid),
+                    "title": card.title,
+                }
+            },
+            status=status.HTTP_200_OK
+        )
+    except:
+        return Response({
+            "error": {
+                "code": 404,
+                "message": "Card not found"
             }
-        },
-        status=status.HTTP_200_OK
-    )
+        }, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_card(request):
     serializer = CardSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(user=request.user)  # przypisz kartę do aktualnego użytkownika
+        serializer.save(user=request.user)
         return Response({
             "data": serializer.data,
-            "message": "The card was created"
+            "message": "Card created successfully"
         }, status=status.HTTP_201_CREATED)
     else:
         return Response({
             "error": {
-                "code": 400,
-                "message": "Incorrect input data",
+                "code": 422,
+                "message": "Invalid card data",
                 "details": serializer.errors
             }
-        }, status=status.HTTP_400_BAD_REQUEST)
-    
+        }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_cards(request):
     cards = Card.objects.filter(user=request.user)
     serializer = CardSerializer(cards, many=True)
-    return Response(serializer.data)
+    return Response(
+        {
+            "data": serializer.data,
+            "message": "User cards retrieved successfully"
+        },
+        status=status.HTTP_200_OK
+    )
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_favourites(request):
     cards = Card.objects.filter(user=request.user, is_favourite=True)
     serializer = CardSerializer(cards, many=True)
-    return Response(serializer.data)
+    return Response(
+        {
+            "data": serializer.data,
+            "message": "Favourite cards retrieved successfully"
+        },
+        status=status.HTTP_200_OK
+    )
 
 @api_view(['GET'])
 def csrf_token_view(request):
@@ -156,5 +183,7 @@ def csrf_token_view(request):
 @api_view(['POST'])
 def logout_user(request):
     logout(request)
-    return Response({"message": "Logged out successfully"})
-
+    return Response(
+        {"message": "Logout successful"},
+        status=status.HTTP_200_OK
+    )
