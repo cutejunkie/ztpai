@@ -72,7 +72,7 @@ DATABASES = {
         'NAME': 'ztpai_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'ztpai_db',  # ← NAZWA USŁUGI z docker-compose
+        'HOST': 'localhost',  # ← NAZWA USŁUGI z docker-compose
         'PORT': '5432',
     }
 }

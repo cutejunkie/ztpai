@@ -7,10 +7,9 @@ from uuid import uuid4
 
 class APITests(APITestCase):
     def setUp(self):
-        # Tworzenie użytkownika
         self.user = CustomUser.objects.create_user(username='testuser', password='testpass')
         self.client.login(username='testuser', password='testpass')
-        # Tworzenie karty
+
         self.card = Card.objects.create(title='Test Card', content='Test Content', user=self.user)
 
     def test_hello_endpoint(self):
@@ -55,11 +54,11 @@ class APITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_create_card_success(self):
-        response = self.client.post('/api/v1/cards/add/', {'title': 'New Card', 'content': 'New Content'})
+        response = self.client.post('/api/v1/cards/', {'title': 'New Card', 'content': 'New Content'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_card_invalid(self):
-        response = self.client.post('/api/v1/cards/add/', {'title': '', 'content': ''})
+        response = self.client.post('/api/v1/cards/', {'title': '', 'content': ''})
         self.assertEqual(response.status_code, status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     def test_get_user_cards(self):
@@ -77,5 +76,5 @@ class APITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_logout_user(self):
-        response = self.client.post('/api/v1/logout/')
+        response = self.client.get('/api/v1/logout/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

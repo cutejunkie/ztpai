@@ -5,9 +5,9 @@ urlpatterns = [
     path('hello/', views.hello),
     path('login/', views.login_user),
     path('register/', views.register_user),
-    path('logout/', views.logout_user),
-    path('cards/', views.user_cards),
+    path('logout/', views.logout_user),    
     path('csrf/', views.csrf_token_view),
+    path('cards/', views.user_cards),
     path('cards/favourites/', views.get_user_favourites),
     path('user/profile/', views.user_profile),
 
