@@ -6,11 +6,8 @@ function Topbar() {
   const handleLogout = async () => {
     try {
       await fetch('http://localhost:8000/api/v1/logout/', {
-        method: 'POST',
-        credentials: 'include',  // jeśli używasz sesji
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        method: 'GET',
+        credentials: 'include',
       });
     } catch (error) {
       console.error("Błąd przy wylogowywaniu:", error);

@@ -6,7 +6,7 @@ from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
 from api.models import Card, CustomUser
 from django.shortcuts import get_object_or_404
-from .serializers import CardSerializer
+from .serializers import CardSerializer, ProfileSerializer
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
 
@@ -184,10 +184,23 @@ def csrf_token_view(request):
     return response
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def logout_user(request):
     logout(request)
     return Response(
         {"message": "Logout successful"},
         status=status.HTTP_200_OK
+    )
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_profile(request):
+    serializer = ProfileSerializer(request.user)
+    return Response(
+        {
+            "data": serializer.data,
+            "message": "User data retrieved successfully"
+        },
+    status=status.HTTP_200_OK
     )
