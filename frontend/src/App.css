@@ -14,7 +14,7 @@ p {
 }
 
 .Background {
-  padding-top: 60px;      /* odstęp pod topbarem */
+  padding-top: 60px;      
   padding-left: 300px;
   min-height: 100vh;
   margin: 0;
@@ -30,8 +30,8 @@ p {
   justify-content: right;
   top: 0;
   left: 0;
-  z-index: 1000;          /* nad innymi elementami */
-  padding: 0 20px;        /* padding od lewej i prawej */
+  z-index: 1000;          
+  padding: 0 20px;        
   padding-top: 5px;
   padding-bottom: 5px;
   box-sizing: border-box;
@@ -264,4 +264,34 @@ h2 {
 .login-button:hover,
 .register-button:hover {
   background-color: #e0c595;
+}
+
+
+/* *********************************************** */
+
+@media (max-width: 768px) {
+  .Sidebar {
+    width: 150px;
+    padding: 0 10px;
+  }
+
+  .Sidebar-logo {
+    width: 130px;
+    height: 130px;
+    font-size: 14px; 
+  }
+
+  .Sidebar-buttons {
+    padding-top: 150px; 
+  }
+
+  .Sidebar-buttons button {
+    width: 130px;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .Background {
+    padding-left: 150px; 
+  }
 }
