@@ -34,7 +34,7 @@ function Register() {
         alert(data.error?.message || 'Błąd rejestracji');
       }
     } catch (error) {
-      console.error('Błąd połączenia:', error);
+      console.error('connection error:', error);
       alert('Błąd serwera');
     }
   };

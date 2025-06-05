@@ -10,7 +10,7 @@ function Topbar() {
         credentials: 'include',
       });
     } catch (error) {
-      console.error("Błąd przy wylogowywaniu:", error);
+      console.error("error while logging out:", error);
     }
 
     localStorage.removeItem('loggedIn');

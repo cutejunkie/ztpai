@@ -36,7 +36,8 @@ BACKEND
 *mogą być konieczne:  
 `pip install django djangorestframework`
 `django-admin startproject backend .`  (utworzy w tym samym folderze)
-`pip install django-cors-headers`  (wtmagane paczki)  
+`pip install django-cors-headers`  (wymagane paczki)  
+`pip install drf-spectacular` (swagger)
 
 ## Diagram ERD
 ![ERD](/frontend/public/ERD.png)  

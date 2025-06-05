@@ -20,7 +20,6 @@ function Login() {
 
     try {
       const csrf = Cookies.get('csrftoken');
-      // console.log(csrf);
       const response = await fetch('http://localhost:8000/api/v1/login/', {
         method: 'POST',
         credentials: 'include',
@@ -42,7 +41,7 @@ function Login() {
         alert('Błąd logowania');
       }
     } catch (error) {
-      console.error('Błąd połączenia:', error);
+      console.error('connection error:', error);
       alert('Błąd serwera');
     }
   };
