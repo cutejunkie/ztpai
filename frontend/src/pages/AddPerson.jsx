@@ -40,7 +40,7 @@ function AddPerson() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/cards/add/', {
+      const response = await fetch('http://localhost:8000/api/v1/cards/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,12 +51,11 @@ function AddPerson() {
           title: formData.name,
           content: formData.ideas,
           birth_date: formData.birthDate,
-          favourite: formData.favourite,
+          is_favourite: formData.favourite,
         }),
       });
 
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         alert("Card added successfully!");
@@ -64,7 +63,7 @@ function AddPerson() {
           name: '',
           birthDate: '',
           ideas: '',
-          favourite: false,
+          is_favourite: false,
         });
       } else {
         alert("Error: " + (data?.error?.message || "failed to create card"));

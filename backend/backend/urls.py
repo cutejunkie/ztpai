@@ -34,5 +34,5 @@ def custom_500_view(request):
     }, status=500)
 
 handler403 = custom_403_view
-handler500 = custom_500_view
 handler404 = custom_404_view
+handler500 = custom_500_view

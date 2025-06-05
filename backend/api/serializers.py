@@ -4,5 +4,5 @@ from .models import Card
 class CardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
-        fields = ['uuid', 'title', 'content', 'birth_date', 'favourite']
+        fields = ['uuid', 'title', 'content', 'birth_date', 'is_favourite']
         read_only_fields = ['uuid', 'user']

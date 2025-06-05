@@ -1,5 +1,9 @@
 services: 
   backend: 
+    depends_on:
+      ztpai_db:
+        condition: service_healthy
+
     build: 
       context: ./backend
       dockerfile: Dockerfile
@@ -9,9 +13,6 @@ services:
 
     ports:
      - 8000:8000
-
-    depends_on:
-     - ztpai_db
 
     environment:
       POSTGRES_USER: postgres

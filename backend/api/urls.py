@@ -5,8 +5,7 @@ urlpatterns = [
     path('hello/', views.hello),
     path('login/', views.login_user),
     path('register/', views.register_user),
-    path('cards/add/', views.create_card),
-    path('cards/', views.get_user_cards),
+    path('cards/', views.user_cards),
     path('csrf/', views.csrf_token_view),
     path('cards/favourites/', views.get_user_favourites),
 

@@ -131,9 +131,20 @@ def get_card_by_uuid(request, uuid):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-def create_card(request):
+def user_cards(request):
+    if request.method=='GET':
+        cards = Card.objects.filter(user=request.user)
+        serializer = CardSerializer(cards, many=True)
+        return Response(
+            {
+                "data": serializer.data,
+                "message": "User cards retrieved successfully"
+            },
+            status=status.HTTP_200_OK
+        )
+    
     serializer = CardSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(user=request.user)
@@ -149,20 +160,6 @@ def create_card(request):
                 "details": serializer.errors
             }
         }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_user_cards(request):
-    cards = Card.objects.filter(user=request.user)
-    serializer = CardSerializer(cards, many=True)
-    return Response(
-        {
-            "data": serializer.data,
-            "message": "User cards retrieved successfully"
-        },
-        status=status.HTTP_200_OK
-    )
 
 
 @api_view(['GET'])
